@@ -1,3 +1,8 @@
+import 'dart:math';
+
+
+import 'dart:developer' as developer;
+
 import 'package:flutter/material.dart';
 import 'package:text_extractor/widges/modal_dialog.dart';
 
@@ -118,10 +123,16 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          imagePickerModel(context);
+          imagePickerModel(context, onCameraTap: () {
+            developer.log("Camera");
+            //debugPrint("Camera");
+          }, onUserInputTap: () {
+            //debugPrint("userInput");
+            developer.log("userInput");
+          });
         },//_incrementCounter,
         tooltip: 'Increment',
-        label: const Text("Scan photo"),//child: const Icon(Icons.add),
+        label: const Text("Scan Photo"),//child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
