@@ -1,10 +1,16 @@
-import 'dart:math';
 
 
-import 'dart:developer' as developer;
-
+import 'dart:developer';
+import 'package:flutter/cupertino.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:text_extractor/utils/image_cropper_class.dart';
+
 import 'package:text_extractor/widges/modal_dialog.dart';
+
+import 'package:text_extractor/utils/image_picker_class.dart';
+
+import 'Screen/identification_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -124,11 +130,28 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           imagePickerModel(context, onCameraTap: () {
-            developer.log("Camera");
+            log("Camera");
+            pickImage(source: ImageSource.camera).then((value) {
+              if (value != '') {
+                imageCropperView(value, context).then((value){
+                  if(value != ''){
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                        builder: (_) => IdentificationPage(
+                          path: value,
+                        ),
+                      ),
+                    );
+                  }
+                });
+              }
+            });
             //debugPrint("Camera");
           }, onUserInputTap: () {
             //debugPrint("userInput");
-            developer.log("userInput");
+            // TODO(userInput button implement of logic): use this button for user to check or correct the name of the product
+            log("userInput");
           });
         },//_incrementCounter,
         tooltip: 'Increment',
